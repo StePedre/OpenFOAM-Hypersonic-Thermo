@@ -1,11 +1,9 @@
 #!/bin/sh
 cd ${0%/*} || exit 1    # Run from this directory
 
-# Source tutorial clean functions
-. $WM_PROJECT_DIR/bin/tools/CleanFunctions
+# Compile OpenFOAM libraries and applications
+rm -rf lnInclude
 
-cleanCase
-
-rm -rf *.eps 0
+wmakeLnInclude .
 
 #------------------------------------------------------------------------------

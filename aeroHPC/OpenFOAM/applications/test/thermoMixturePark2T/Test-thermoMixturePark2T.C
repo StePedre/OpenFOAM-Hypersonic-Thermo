@@ -32,7 +32,8 @@ Description
 #include "IFstream.H"
 #include "specie.H"
 #include "perfectGas.H"
-#include "hConstThermo.H"
+#include "RRHOThermo.H"
+#include "rrhoThermo.H"
 
 using namespace Foam;
 
@@ -41,40 +42,24 @@ using namespace Foam;
 
 int main(int argc, char *argv[])
 {
-    typedef hConstThermo<perfectGas<specie>> ThermoType;
+    typedef rrhoThermo<perfectGas<specie>> ThermoType;
 
     dictionary dict(IFstream("thermoDict")());
 
-    ThermoType t1("specie1", dict.subDict("specie1"));
-    ThermoType t2("specie2", dict.subDict("specie2"));
+    ThermoType t1
+    (
+        "RRHOThermo",
+        dict.subDict("air")
+    );
 
-    Info<< "Checking Cp of mixture of hConstThermo:" << nl << endl;
+    const scalar cp = t1.Cpve(1e5, 300);
 
-    ThermoType t1Plus2(0.5*t1 + 0.5*t2);
+    Info<< "t1.Cp(300, 1e5) = " << cp
+        << " [J/kmol/K]" 
+        << endl;
 
-    ThermoType t1PlusEq2(0.5*t1);
-    t1PlusEq2 += 0.5*t2;
-
-    Info<< "    W_1/W_2/W_{1+2}/W_{1+=2} = "
-        << t1.W() << "/"
-        << t2.W() << "/"
-        << t1Plus2.W() << "/"
-        << t1PlusEq2.W()
-        << " [kg/kmol] " << nl << endl;
-
-    Info<< "Cp_1/Cp_2/Cp_{1+2}/Cp_{1+=2} = "
-        << t1.Cp(1, 1) << "/"
-        << t2.Cp(1, 1) << "/"
-        << t1Plus2.Cp(1, 1) << "/"
-        << t1PlusEq2.Cp(1, 1)
-        << " [J/kg/K]" << endl
-        << "                             = "
-        << t1.Cp(1, 1)*t1.W() << "/"
-        << t2.Cp(1, 1)*t2.W() << "/"
-        << t1Plus2.Cp(1, 1)*t1Plus2.W() << "/"
-        << t1PlusEq2.Cp(1, 1)*t1PlusEq2.W()
-        << " [J/kmol/K]" << nl << endl;
-
+    Info << "t1.W() =  " << t1.W() << endl;
+    
     Info<< "End" << nl << endl;
 
     return 0;

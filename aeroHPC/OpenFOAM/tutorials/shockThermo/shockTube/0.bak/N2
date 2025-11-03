@@ -8,12 +8,28 @@
 FoamFile
 {
     format      ascii;
-    class       dictionary;
-    location    "system";
-    object      functions;
+    class       volScalarField;
+    location    "0";
+    object      N2;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-#includeFunc mag(U)
+dimensions      [];
+
+internalField   uniform 0.77;
+
+boundaryField
+{
+
+    sides
+    {
+        type            zeroGradient;
+    }
+
+    empty
+    {
+        type            empty;
+    }
+}
 
 // ************************************************************************* //
