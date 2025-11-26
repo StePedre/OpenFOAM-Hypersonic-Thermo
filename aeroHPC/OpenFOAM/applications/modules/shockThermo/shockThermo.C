@@ -33,6 +33,8 @@ License
 #include "fvcSnGrad.H"
 #include "addToRunTimeSelectionTable.H"
 
+#include "psiThermo.H"
+
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
 
 namespace Foam
@@ -55,7 +57,11 @@ namespace solvers
 Foam::solvers::shockThermo::shockThermo(fvMesh& mesh)
 :
 
-shockFluid(mesh),
+shockFluid
+(
+    mesh,
+    autoPtr<fluidThermo>(fluidMulticomponentThermo::New(mesh).ptr())
+),
 
 thermo_(refCast<fluidMulticomponentThermo>(shockFluid::thermo_)),
 
@@ -94,11 +100,40 @@ Foam::solvers::shockThermo::~shockThermo()
 
 void Foam::solvers::shockThermo::preSolve()
 {
+    // cast the thermo class to support multicomponent fluid.
     refCast<fluidMulticomponentThermo>(shockFluid::thermo_);
 
-    shockFluid::preSolve();
+    {
+        const surfaceScalarField amaxSf
+        (
+            max(mag(aphiv_pos()), mag(aphiv_neg()))
+        );
 
+        if (transient())
+        {
+            correctCoNum(amaxSf);
+        }
+        else if (LTS)
+        {
+            setRDeltaT(amaxSf);
+        }
+    }
+
+    fvModels().preUpdateMesh();
+
+    if (mesh.topoChanging() || mesh.stitcher().stitches())
+    {
+        pos.clear();
+        neg.clear();
+
+        clearTemporaryFields();
+    }
+
+    // Update the mesh for topology change, mesh to mesh mapping
+    mesh_.update();
 }
+
+
 
 
 // ************************************************************************* //

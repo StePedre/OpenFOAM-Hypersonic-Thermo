@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "highEnthalpyMulticomponentThermo.C": "cpp",
+        "highEnthalpyMulticomponentThermos.C": "cpp",
+        "rrhoThermo.C": "cpp"
+    }
+}

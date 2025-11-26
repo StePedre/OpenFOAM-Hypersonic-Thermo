@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     | Website:  https://openfoam.org
-    \\  /    A nd           | Copyright (C) 2023 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2023-2025 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -25,6 +25,7 @@ Class
     Foam::solvers::shockThermo
 
 Description
+    Solver module for density-based solution of compressible flow
 
     Solver module for EXPLICIT density-based solution of compressible REACTIVE
     flows with specie transport.
@@ -117,7 +118,9 @@ private:
             return tsf;
         }
 
-    
+        //- Set rDeltaT for LTS
+        void setRDeltaT(const surfaceScalarField& amaxSf);
+ 
 public:
 
     // Public Data

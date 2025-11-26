@@ -49,7 +49,7 @@ mkdir -p gsl/build/gsl-${GSL_VERSION} gsl/src
 
 # download GSL
 
-[ ! -f $gslArchive ] &&  wget https://mirror.kumi.systems/gnu/gsl/$gslArchive --no-check-certificate
+[ ! -f $gslArchive ] &&  wget https://mirror.kumi.systems/gnu/gsl/$gslArchive --no-check-certificate -O $gslArchive
 
 # extract GSL
 tar xzf $gslArchive -C gsl/src/

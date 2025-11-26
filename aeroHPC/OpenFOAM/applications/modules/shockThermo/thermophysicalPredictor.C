@@ -91,10 +91,12 @@ void Foam::solvers::shockThermo::thermophysicalPredictor()
 
     // solve the equation of energy.
 
-    // IMPORTANT: I cannot used the function call
-    // shockFluid::thermophysicalPredictor() because it triggers the
-    // inconsistency among thermo classes.
-
+    // IMPORTANT: I cannot use the function call
+    // shockFluid::thermophysicalPredictor(), as it causes inconsistencies
+    // between thermo classes. The thermo.correct() function must be the one
+    // defined in the derived class; shockFluid::thermophysicalPredictor() is
+    // pasted here below.
+    
     volScalarField& e = thermo_.he();
 
     const surfaceScalarField e_pos(interpolate(e, pos, thermo.T().name()));
@@ -114,6 +116,9 @@ void Foam::solvers::shockThermo::thermophysicalPredictor()
         phiEp += mesh.phi()*(a_pos()*p_pos() + a_neg()*p_neg());
     }
 
+
+    //- for high enthalpy flows, e = e_rt + e_ve.
+    
     fvScalarMatrix EEqn
     (
         fvm::ddt(rho, e) + fvc::div(phiEp)
