@@ -1,0 +1,3 @@
+SOURCE += Test-testMutationOpt.C
+
+EXE = $(FOAM_USER_APPBIN)/Test-testMutationOpt

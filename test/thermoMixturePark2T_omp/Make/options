@@ -1,0 +1,25 @@
+c++WARN += -Wno-old-style-cast \
+    -Wno-int-in-bool-context \
+    -Wno-ignored-qualifiers \
+    -Wno-sign-compare \
+    -Wno-misleading-indentation \
+    -Wno-unused-variable \
+    -Wno-unused-function \
+    -Wno-deprecated-copy
+
+EXE_INC = \
+    -I$(MPP_DIRECTORY)/install/include/mutation++ \
+    -I$(MPP_EIGEN)/install/include/eigen3 \
+    -I$(LIB_SRC)/thermophysicalModels/specie/lnInclude \
+    -I$(LIB_SRC)/ODE/lnInclude \
+    -I$(LIB_SRC)/OpenFOAM/lnInclude \
+    -I$(LIB_SRC)/OSspecific/POSIX/lnInclude
+
+EXE_LIBS = \
+    -lspecie \
+    -L$(MPP_DIRECTORY)/install/lib -lmutation++ \
+    -lOpenFOAM \
+    -lODE
+
+c++FLAGS += -fopenmp
+LINKEXE  += -fopenmp
