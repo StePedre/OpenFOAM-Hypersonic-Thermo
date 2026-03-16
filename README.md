@@ -5,7 +5,7 @@
 > ⚠️ **Repository Note:** This repository contains only the test folder and our custom user-side code. It does not include the full OpenFOAM source code, as our development methodology deliberately avoided modifying the core engine to ensure long-term maintainability.
 
 ## 📌 Overview
-This project was developed for the High Performance Scientific Computing in Aerospace Engineering (A.Y. 2025/2026) and extends the OpenFOAM computational fluid dynamics framework to simulate high-enthalpy, hypersonic flows. Standard CFD solvers assume local thermal equilibrium, which fails in hypersonic regimes where internal energy modes (vibrational and electronic) relax much slower than translational and rotational modes. 
+This project was developed for the second Module of the High Performance Scientific Computing in Aerospace Engineering course (A.Y. 2025/2026) and extends the OpenFOAM computational fluid dynamics framework to simulate high-enthalpy, hypersonic flows. Standard CFD solvers assume local thermal equilibrium, which fails in hypersonic regimes where internal energy modes (vibrational and electronic) relax much slower than translational and rotational modes. 
 
 To solve this, we implemented a **two-temperature thermodynamic model** coupled with the **Mutation++** library. This approach allows us to accurately capture thermal non-equilibrium and finite-rate chemistry without hardcoding complex physical data into the CFD solver.
 
